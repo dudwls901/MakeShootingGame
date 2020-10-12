@@ -5,10 +5,14 @@ using UnityEngine.SceneManagement;
 
 public class ChangeScene : MonoBehaviour
 {
+    private MeshRenderer render;
+
+    public float speed;
+    private float offset;
     // Start is called before the first frame update
     void Start()
     {
-        
+        render = GetComponent<MeshRenderer>();
     }
 
     // Update is called once per frame
@@ -18,5 +22,8 @@ public class ChangeScene : MonoBehaviour
         {
             SceneManager.LoadScene("GameScene"); //게임씬 로드
         }
+
+        offset += Time.deltaTime * speed;
+        render.material.mainTextureOffset = new Vector2(0,offset);
     }
 }
