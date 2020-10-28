@@ -16,14 +16,18 @@ public class ChangeScene : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    public void StartGame()
     {
-        if (Input.GetMouseButtonDown(0))//마우스 클릭 받아옴
-        {
+        
             SceneManager.LoadScene("GameScene"); //게임씬 로드
-        }
+        
 
-        offset += Time.deltaTime * speed;
-        render.material.mainTextureOffset = new Vector2(0,offset);
+    //    offset += Time.deltaTime * speed;
+    //    render.material.mainTextureOffset = new Vector2(0,offset);
+    }
+
+    public void Finish()
+    {
+        SceneManager.LoadScene("StartScene");
     }
 }

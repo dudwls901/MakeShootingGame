@@ -4,12 +4,16 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
+    public GameObject die;
     public float speed;
     public bool isTouchTop;
     public bool isTouchBottom;
     public bool isTouchRight;
     public bool isTouchLeft;
-
+    bool fireReady = true;
+    public Transform firePos;
+    public GameObject bullet;
+    public float fireLate;
     Animator anim;
 
     void Awake()
@@ -35,7 +39,28 @@ public class Player : MonoBehaviour
         {
             anim.SetInteger("Input", (int)h);
         }
+
+        Fire();
     }
+
+    void Fire()
+    {
+        if (Input.GetKey(KeyCode.Space) && fireReady)
+        {
+            StartCoroutine(Shot());
+        }
+
+    }
+
+    IEnumerator Shot()
+    {
+        fireReady = false;
+        Instantiate(bullet, firePos.position, firePos.rotation);
+        yield return new WaitForSeconds(fireLate);
+        fireReady = true;
+    }
+
+
 
     void OnTriggerEnter2D(Collider2D collision)
     {
@@ -57,6 +82,13 @@ public class Player : MonoBehaviour
                     break;
             }
         }
+        else if (collision.CompareTag("Enemy"))
+        {
+            Destroy(collision.gameObject);
+            die.SetActive(true);
+            this.gameObject.SetActive(false);
+        }
+
     }
 
     void OnTriggerExit2D(Collider2D collision)
